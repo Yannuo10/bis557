@@ -7,7 +7,11 @@
 linear_model(form, dataframe, contrasts = NULL)
 }
 \arguments{
-\item{form:}{a formula; dataframe: a data frame; contrasts: a list of contrasts for factor variables}
+\item{form}{a formula;}
+
+\item{dataframe}{a data frame;}
+
+\item{contrasts}{a list of contrasts for factor variables}
 }
 \description{
 one way to build a linear model

@@ -7,7 +7,13 @@
 grad_descent(form, data, contrasts = NULL, itr = 1e+06)
 }
 \arguments{
-\item{form:}{a formula; dataframe: a data frame; contrasts: a list of contrasts for factor variables}
+\item{form}{a formula;}
+
+\item{data}{a data frame used for the function;}
+
+\item{contrasts}{a list of contrasts for factor variables}
+
+\item{itr}{number of iteration}
 }
 \description{
 another way to build a linear model. gradient descent for ordinary least squares

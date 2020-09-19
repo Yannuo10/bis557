@@ -1,6 +1,9 @@
 #' @title grad_descent() function
 #' @description another way to build a linear model. gradient descent for ordinary least squares
-#' @param form: a formula; dataframe: a data frame; contrasts: a list of contrasts for factor variables
+#' @param form a formula;
+#' @param data a data frame used for the function;
+#' @param contrasts a list of contrasts for factor variables
+#' @param itr number of iteration
 #' @examples
 #' data(iris)
 #' fit_linear_model <- grad_descent(Sepal.Length ~ ., iris, contrasts = list(Species = "contr.sum"))
