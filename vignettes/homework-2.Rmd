@@ -1,0 +1,91 @@
+---
+title: "homework-2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{homework-2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(bis557)
+```
+
+1. Using the matrix form, $\hat{\beta} = (X^TX)^{-1}X^TY $ 
+
+According to the explict formula for the inverse of a 2 by 2 matrix
+
+$$(X^TX)^{-1} = 1/(n*\sum(X_i^2)-(\sum(X_i))^2)* \left[\begin{array} 
+{ccc}
+\sum(X_i^2) & - \sum(Xi)\\
+-\sum(x_i) & n  \\
+\end{array}\right]$$
+
+
+
+$\hat{\beta_0} = \sum(X_i^2) * \sum(Y_i) - \sum(X_i) * \sum(X_iY_i)$
+$\hat{\beta_1} = -\sum(X_i) * \sum(Y_i) + n * \sum(X_iY_i)$
+
+
+
+2.
+```{r}
+library(rsample)
+library(purrr)
+library(foreach)
+library(glmnet)
+library(tibble)
+library(doParallel)
+registerDoParallel(cores=4)
+library(MASS)
+#gd_new() function to fit a gradient descent model based on out of sample accuracy
+fit_linear_model <- gd_new(Sepal.Length ~ ., iris)
+fit_linear_model$coefficients
+#compare to lm()
+fit_lm <- lm(Sepal.Length  ~ ., iris)
+fit_lm$coefficients
+```
+
+
+
+
+
+3.
+```{r}
+#ridge regression taking into account colinear regression variables
+fit_ridge_model <- ridge(Sepal.Length ~ ., iris, lambda = 0.1)
+fit_ridge_model$coef
+```
+
+
+
+4.
+```{r}
+#select the best lambda for redge regression
+fit_lm <- cv.glmnet(model.matrix(Sepal.Length  ~ ., iris), as.matrix(iris[, 1]),  alpha = 0)
+fit_opt_model <- optimization(Sepal.Length ~ ., iris, lambdas = fit_lm$lambda)
+fit_opt_model$lambda
+```
+
+
+5.
+
+According to Elastic Net regulization we can know:
+
+$$\tilde{\beta}_l = \frac{\frac{1}{n} \sum^n_{i=1} x_{il} (y_i -\tilde{y}^{(l)}) - \lambda \alpha}{1 - \lambda (1 - \alpha)}$$
+
+
+Let $\alpha$ = 0 and it can be written as
+
+$$\tilde{\beta}_l = \frac{1}{n} X^t_j Y - \lambda$$
+
+If the function returns a value that is negative or zero, $\beta$ will be set to zero. Since $|X_j^TY| \leq n \lambda$, $\widehat \beta_j^{\text{LASSO}}$ must be zero.
+
+
