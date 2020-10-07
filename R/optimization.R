@@ -6,6 +6,16 @@
 #' @param lambdas a sequence for selection
 #' @param nfold number of folds to be used
 #' @examples
+#' library(rsample)
+#' library(rsample)
+#' library(purrr)
+#' library(foreach)
+#' library(Matrix)
+#' library(glmnet)
+#' library(tibble)
+#' library(doParallel)
+#' registerDoParallel(cores=2)
+#' library(MASS)
 #' data(iris)
 #' fit_linear_model <- optimization(Sepal.Length ~ ., iris, contrasts = list(Species = "contr.sum"), lambda = seq(0, 2, 0.01))
 #' @export

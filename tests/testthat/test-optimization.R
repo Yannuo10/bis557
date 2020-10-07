@@ -3,9 +3,11 @@ library(bis557)
 library(rsample)
 library(purrr)
 library(foreach)
+library(Matrix)
 library(glmnet)
 library(tibble)
 library(doParallel)
+registerDoParallel(cores=2)
 library(MASS)
 
 
@@ -23,7 +25,7 @@ test_that("You optimization() function works in an easy case.", {
 
 
   expect_equivalent(fit_lm$lambda.min, fit_linear_model$lambda,
-                    tolerance = 0.1)
+                    tolerance = 0.5)
 })
 
 test_that("Your optimization() function works with contrasts.", {
@@ -37,5 +39,5 @@ test_that("Your optimization() function works with contrasts.", {
                             contrasts = list(Species = "contr.sum"), lambdas = fit_lm$lambda)
 
   expect_equivalent(fit_lm$lambda.min, fit_linear_model$lambda,
-                    tolerance = 0.1)
+                    tolerance = 0.5)
 })

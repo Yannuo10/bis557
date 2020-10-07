@@ -40,10 +40,11 @@ $\hat{\beta_1} = -\sum(X_i) * \sum(Y_i) + n * \sum(X_iY_i)$
 library(rsample)
 library(purrr)
 library(foreach)
+library(Matrix)
 library(glmnet)
 library(tibble)
 library(doParallel)
-registerDoParallel(cores=4)
+registerDoParallel(cores=2)
 library(MASS)
 #gd_new() function to fit a gradient descent model based on out of sample accuracy
 fit_linear_model <- gd_new(Sepal.Length ~ ., iris)
