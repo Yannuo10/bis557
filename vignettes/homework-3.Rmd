@@ -1,0 +1,89 @@
+---
+title: "homework-3"
+output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{homework-3}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup}
+library(bis557)
+```
+
+
+QUESTION 1
+```{r}
+set.seed(1234)
+X <- matrix(rnorm(9), nrow = 3, ncol = 3)
+XX <- t(X) %*% X
+svd(XX)$d
+
+p <- c(0.9999, 0.1, 1e-15)
+D <- p * (1-p)
+H <- t(X) %*% diag(D) %*% X
+svd(H)$d
+```
+From the above results we can know the linear Hessian $X^TX$ is well conditioned, as the ratio of the largest singular value to the smallest value is approximately 61. However the longistic variation has the ratio around $10^{14}$, which means it is ill-conditioned.
+
+
+
+QUESTION 2
+
+glm_new() implements a first-order solution for the GLM maximum likelihood problem using only gradient information. In the following examples, a constant step size and a Momentum adaptive step size are used to fit the GLM model.
+```{r}
+library(bis557)
+
+#devtools::build_vignettes()
+n <- 5000
+p <- 3
+beta <- c(-1, 0.2, 0.1)
+X <- cbind(1, matrix(rnorm(n * (p- 1)), ncol = p - 1))
+eta <- X %*% beta
+lambda <- exp(eta)
+y <- rpois(n, lambda = lambda)
+#Example 1
+fit_linear_model <- glm_new(X, y, mu_fun = function(eta) exp(eta), var_fun = identity,
+                            step = 0.0001, method = "constant")
+fit_linear_model$coefficients
+#Example 2
+fit_linear_model2 <- glm_new(X, y, mu_fun = function(eta) exp(eta), var_fun = identity, step = 0.0001, 
+                             friction = 0.9, method = "momentum")
+fit_linear_model2$coefficients
+```
+
+
+QUESTION 3
+
+The function multi_class() is built to classify multi-categorical variables based on logistic regression. It returns the class with the highest probability and the corresponding coefficients.
+```{r}
+library(bis557)
+data(iris)
+X <- cbind(1, as.matrix(iris[, -5]))
+y <- ifelse(iris$Species==levels(iris$Species)[1], 1, ifelse(iris$Species==levels(iris$Species)[2], 2, 3))
+
+fit_linear_model <- multi_class(X, y, itr = 50, tolerance = 1e-10)
+fit_linear_model$class
+fit_linear_model$coefficients
+```
+
+
+REFERENCE
+
+Textbook CASL P124 - 138.
+
+
+
+
+
+
+
+
