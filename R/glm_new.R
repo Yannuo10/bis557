@@ -26,7 +26,7 @@ glm_new <- function(X, y, mu_fun, var_fun, itr = 50, step, method, friction, tol
     mu <- mu_fun(eta)
     W <- as.numeric(var_fun(mu))
     grad <- t(X) %*% (y - mu)
-    #update betas using the gradient innformation
+    #update betas using the gradient information
     beta <- beta + step * grad
     #stop iterating if the difference is small enough
     if(sqrt(crossprod(beta - beta.old)) < tolerance) break

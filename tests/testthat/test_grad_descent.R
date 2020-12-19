@@ -1,5 +1,4 @@
 library(testthat)
-library(bis557)
 context("Test the output of grad_descent.")
 
 

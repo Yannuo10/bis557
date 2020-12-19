@@ -26,6 +26,13 @@ Suggests:
     purrr,
     rsample,
     tibble
+Imports:
+    devtools,
+    reticulate,
+    casl
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr
+Remote:
+    github::statsmaths/casl
+
